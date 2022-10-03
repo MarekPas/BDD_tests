@@ -7,7 +7,6 @@ from time import sleep
 PATH = r"c:\Program Files (x86)\chromedriver.exe"
 options = Options()
 options.binary_location = r"C:\Program Files (x86)\BraveSoftware\Brave-Browser\Application\brave.exe"
-# options.add_argument("--headless")
 
 
 @given(u'Open main page')
@@ -15,11 +14,6 @@ def open_main_page(context):
     context.driver = webdriver.Chrome(PATH, options=options)
     context.driver.maximize_window()
     context.driver.get("https://turbotlumaczenia.pl/")
-    # try:
-    #     context.driver.find_element(By.XPATH, '//*[@data-test="widget-close-btn"]').click()
-    # except:
-    #     pass
-
 
 @when(u'Click Wycena page')
 def click_wycena_page(context):
