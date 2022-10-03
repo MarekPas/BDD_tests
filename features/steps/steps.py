@@ -1,17 +1,14 @@
 from behave import *
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from time import sleep
 
+# PATH to chromedriver
 PATH = r"c:\Program Files (x86)\chromedriver.exe"
-options = Options()
-options.binary_location = r"C:\Program Files (x86)\BraveSoftware\Brave-Browser\Application\brave.exe"
-
 
 @given(u'Open main page')
 def open_main_page(context):
-    context.driver = webdriver.Chrome(PATH, options=options)
+    context.driver = webdriver.Chrome(PATH)
     context.driver.maximize_window()
     context.driver.get("https://turbotlumaczenia.pl/")
 
@@ -31,7 +28,7 @@ def choose_translation(context):
 
     context.driver.find_element(By.ID, "dropdown-col-to1").click()
     el = context.driver.find_elements(By.XPATH, '//input')
-    for x in el:    # clear all selected checkbox
+    for x in el:    # clear all selected checkboxes
         if x.is_selected():
             x.click()
     context.driver.find_element(By.XPATH, '//input[@data-cc="de"]').click()
@@ -62,11 +59,13 @@ def check_emailfield(context):
 def estimated_price(context):
     sleep(3)
     text = context.driver.find_element(By.XPATH, '//span[@data-bind-expected-realisation-time]').text
+    print(text)
     assert text == '3 godziny'
 
 
 @then(u'Check if expected time is calculated')
 def estimated_time(context):
-    sleep(3)
     price = context.driver.find_element(By.XPATH, '//span[@data-bind-expected-price]').text
-    assert price == '20.14 PLN'
+    print(price)
+    assert price == '20.14 zł'
+    context.driver.close()
